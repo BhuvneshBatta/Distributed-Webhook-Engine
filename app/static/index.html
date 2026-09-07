@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Webhook Engine Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+    <div class="max-w-6xl mx-auto px-6 py-8">
+        <header class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-2xl font-semibold">Webhook Delivery Engine</h1>
+                <p class="text-slate-400 text-sm">Live operational dashboard &middot; auto-refreshes every 2s</p>
+            </div>
+            <span id="conn-status" class="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400">
+                connected
+            </span>
+        </header>
+
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="stat-card">
+                <p class="stat-label">Stream Queue Depth</p>
+                <p id="stat-queue-depth" class="stat-value">--</p>
+            </div>
+            <div class="stat-card">
+                <p class="stat-label">Pending Retries</p>
+                <p id="stat-pending-retries" class="stat-value">--</p>
+            </div>
+            <div class="stat-card">
+                <p class="stat-label">Delivered</p>
+                <p id="stat-delivered" class="stat-value text-emerald-400">--</p>
+            </div>
+            <div class="stat-card">
+                <p class="stat-label">Dead Letter Queue</p>
+                <p id="stat-dlq" class="stat-value text-rose-400">--</p>
+            </div>
+            <div class="stat-card">
+                <p class="stat-label">Queued</p>
+                <p id="stat-queued" class="stat-value">--</p>
+            </div>
+            <div class="stat-card">
+                <p class="stat-label">Retrying</p>
+                <p id="stat-retrying" class="stat-value text-amber-400">--</p>
+            </div>
+            <div class="stat-card col-span-2">
+                <p class="stat-label">Average Delivery Latency</p>
+                <p id="stat-latency" class="stat-value">--</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold">Dead Letter Queue</h2>
+                <button id="refresh-dlq" class="text-sm text-slate-400 hover:text-slate-200">Refresh</button>
+            </div>
+            <div class="overflow-x-auto rounded-lg border border-slate-800">
+                <table class="w-full text-sm">
+                    <thead class="bg-slate-900 text-slate-400 text-left">
+                        <tr>
+                            <th class="px-4 py-2">Event ID</th>
+                            <th class="px-4 py-2">Attempts</th>
+                            <th class="px-4 py-2">Final Error</th>
+                            <th class="px-4 py-2">Last Attempted</th>
+                            <th class="px-4 py-2">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dlq-body" class="divide-y divide-slate-800"></tbody>
+                </table>
+            </div>
+            <p id="dlq-empty" class="text-slate-500 text-sm mt-4 hidden">No dead-lettered events. 🎉</p>
+        </section>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
